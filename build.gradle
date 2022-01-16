@@ -1,0 +1,35 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext {
+        compose_version = '1.2.0-alpha01'
+    }
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        // android gradle plugin
+        classpath "com.android.tools.build:gradle:7.0.4"
+
+        // kotlin gradle plugin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+
+        // ktlint gradle plugin
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:10.2.1"
+
+        // dokka gradle plugin for kotlin doc generation
+        classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.6.10'
+    }
+}
+
+allprojects {
+    // apply ktlint to all modules
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
