@@ -19,8 +19,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun Home(
-    viewModel: HomeViewModel,
-    disable: () -> Unit
+    viewModel: HomeViewModel
 ) {
 
     // Track if the user doesn't want to see the rationale any more.

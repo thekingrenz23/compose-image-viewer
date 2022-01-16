@@ -1,27 +1,21 @@
 package com.fusiontechph.sample.ui.home
 
-import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.fusiontechph.sample.data.Result
 import com.fusiontechph.sample.data.rationale.RationaleRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 
 class HomeViewModel(
     private val rationaleRepository: RationaleRepository
 ) : ViewModel() {
 
-    val mutex = Mutex()
+    private val mutex = Mutex()
 
     // state of the rationale
     private val showReadExternalStorageRationale = MutableStateFlow(false)
@@ -33,10 +27,9 @@ class HomeViewModel(
     }
 
     // fetch the rationale on the data store
-    fun getReadExternalStorageRationalePersistent() {
+    private fun getReadExternalStorageRationalePersistent() {
         viewModelScope.launch {
-            val result = rationaleRepository.getShowReadExternalStorageRationale()
-            when (result) {
+            when (val result = rationaleRepository.getShowReadExternalStorageRationale()) {
                 is Result.Success -> {
                     mutex.withLock {
                         showReadExternalStorageRationale.value = result.data
@@ -56,15 +49,6 @@ class HomeViewModel(
     fun disable() {
         viewModelScope.launch {
             rationaleRepository.disableRES()
-            getReadExternalStorageRationalePersistent()
-        }
-    }
-
-    // enable rationale
-    // we don't care if it is saved or not
-    fun enable() {
-        viewModelScope.launch {
-            rationaleRepository.enableRES()
             getReadExternalStorageRationalePersistent()
         }
     }

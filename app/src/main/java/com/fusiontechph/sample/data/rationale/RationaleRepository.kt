@@ -1,7 +1,6 @@
 package com.fusiontechph.sample.data.rationale
 
 import com.fusiontechph.sample.data.Result
-import com.fusiontechph.sample.model.Rationale
 import kotlinx.coroutines.flow.Flow
 
 interface RationaleRepository {

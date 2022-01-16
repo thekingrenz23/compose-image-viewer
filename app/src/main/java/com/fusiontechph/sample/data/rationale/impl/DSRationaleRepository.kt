@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 
-class DSRationaleRepository(val dataStore: DataStore<Preferences>) : RationaleRepository {
+class DSRationaleRepository(private val dataStore: DataStore<Preferences>) : RationaleRepository {
 
     object Keys {
         val showReadExternalStorageRationale =

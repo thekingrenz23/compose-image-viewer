@@ -1,11 +1,8 @@
 package com.fusiontechph.sample.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fusiontechph.sample.SampleApp
 import com.fusiontechph.sample.ui.home.Home
@@ -28,10 +25,7 @@ class MainActivity : ComponentActivity() {
                 )
 
                 Home(
-                    viewModel = homeViewModel,
-                    disable = {
-                        homeViewModel.disable()
-                    }
+                    viewModel = homeViewModel
                 )
             }
         }
