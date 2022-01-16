@@ -54,6 +54,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
 
     // jetpack (compose) -> from google() repository
     implementation "androidx.compose.ui:ui:$compose_version"
@@ -62,6 +63,9 @@ dependencies {
 
     // default ui library
     implementation 'com.google.android.material:material:1.4.0'
+
+    // use to store persistent rationale
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
     // test dependency
     testImplementation 'junit:junit:4.13.2'

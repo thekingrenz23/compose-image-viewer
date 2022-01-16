@@ -8,31 +8,21 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.fusiontechph.sample.data.AppContainer
+import com.fusiontechph.sample.data.AppContainerImpl
 import com.fusiontechph.sample.ui.theme.ComposeimageviewerTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val appContainer = (application as SampleApp).container
+
         setContent {
             ComposeimageviewerTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
+                Text(text = "Hello Android")
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ComposeimageviewerTheme {
-        Greeting("Android")
     }
 }
