@@ -67,6 +67,9 @@ dependencies {
     // use to store persistent rationale
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
+    // use to check permission
+    implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
+
     // test dependency
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

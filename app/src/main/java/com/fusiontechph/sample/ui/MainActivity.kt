@@ -26,13 +26,9 @@ class MainActivity : ComponentActivity() {
                 val homeViewModel: HomeViewModel = viewModel(
                     factory = HomeViewModel.provideFactory(appContainer.rationaleRepository)
                 )
-                val rational by homeViewModel.observeRationale().collectAsState(true)
 
                 Home(
-                    showReadExternalStorageRationale = rational,
-                    enable = {
-                       homeViewModel.enable()
-                    },
+                    viewModel = homeViewModel,
                     disable = {
                         homeViewModel.disable()
                     }

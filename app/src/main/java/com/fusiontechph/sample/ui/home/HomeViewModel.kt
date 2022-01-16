@@ -6,16 +6,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.fusiontechph.sample.data.Result
 import com.fusiontechph.sample.data.rationale.RationaleRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 class HomeViewModel(
     private val rationaleRepository: RationaleRepository
 ) : ViewModel() {
+
+    val mutex = Mutex()
 
     // state of the rationale
     private val showReadExternalStorageRationale = MutableStateFlow(false)
@@ -31,8 +37,16 @@ class HomeViewModel(
         viewModelScope.launch {
             val result = rationaleRepository.getShowReadExternalStorageRationale()
             when (result) {
-                is Result.Success -> showReadExternalStorageRationale.value = result.data
-                is Result.Error -> showReadExternalStorageRationale.value = false
+                is Result.Success -> {
+                    mutex.withLock {
+                        showReadExternalStorageRationale.value = result.data
+                    }
+                }
+                is Result.Error -> {
+                    mutex.withLock {
+                        showReadExternalStorageRationale.value = false
+                    }
+                }
             }
         }
     }
@@ -42,6 +56,7 @@ class HomeViewModel(
     fun disable() {
         viewModelScope.launch {
             rationaleRepository.disableRES()
+            getReadExternalStorageRationalePersistent()
         }
     }
 
@@ -50,6 +65,7 @@ class HomeViewModel(
     fun enable() {
         viewModelScope.launch {
             rationaleRepository.enableRES()
+            getReadExternalStorageRationalePersistent()
         }
     }
 
