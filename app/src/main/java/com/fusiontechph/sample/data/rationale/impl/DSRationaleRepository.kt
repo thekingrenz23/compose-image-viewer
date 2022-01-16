@@ -1,6 +1,5 @@
 package com.fusiontechph.sample.data.rationale.impl
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -10,7 +9,6 @@ import com.fusiontechph.sample.data.Result
 import com.fusiontechph.sample.data.rationale.RationaleRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -39,12 +37,11 @@ class DSRationaleRepository(val dataStore: DataStore<Preferences>) : RationaleRe
                 }
             }
             .map { preferences ->
-                Log.i("RATIONALE", "map operator executed")
                 preferences.showReadExternalStorageRationale
             }
             .distinctUntilChanged()
 
-    // fetch read external storage rationale
+    // get the persisted rationale from data store
     override suspend fun getShowReadExternalStorageRationale(): Result<Boolean> {
         val result = dataStore.data
             .catch {
@@ -64,15 +61,27 @@ class DSRationaleRepository(val dataStore: DataStore<Preferences>) : RationaleRe
 
     // disable read external storage rationale
     override suspend fun disableRES() {
-        dataStore.edit {
-            it[Keys.showReadExternalStorageRationale] = false
+        try {
+            dataStore.edit {
+                it[Keys.showReadExternalStorageRationale] = false
+            }
+        } catch (e: IOException) {
+            // analytics: error writing to disk
+        } catch (e: Exception) {
+            // analytics: Exception
         }
     }
 
     // enable read external storage rationale
     override suspend fun enableRES() {
-        dataStore.edit {
-            it[Keys.showReadExternalStorageRationale] = true
+        try {
+            dataStore.edit {
+                it[Keys.showReadExternalStorageRationale] = true
+            }
+        } catch (e: IOException) {
+            // analytics: error writing to disk
+        } catch (e: Exception) {
+            // analytics: Exception
         }
     }
 }

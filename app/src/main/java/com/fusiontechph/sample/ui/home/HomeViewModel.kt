@@ -38,6 +38,7 @@ class HomeViewModel(
     }
 
     // disable rationale
+    // we don't care if it is saved or not
     fun disable() {
         viewModelScope.launch {
             rationaleRepository.disableRES()
@@ -45,6 +46,7 @@ class HomeViewModel(
     }
 
     // enable rationale
+    // we don't care if it is saved or not
     fun enable() {
         viewModelScope.launch {
             rationaleRepository.enableRES()
