@@ -6,10 +6,13 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import com.fusiontechph.sample.data.Result
 import com.fusiontechph.sample.data.rationale.RationaleRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 
@@ -40,6 +43,24 @@ class DSRationaleRepository(val dataStore: DataStore<Preferences>) : RationaleRe
                 preferences.showReadExternalStorageRationale
             }
             .distinctUntilChanged()
+
+    // fetch read external storage rationale
+    override suspend fun getShowReadExternalStorageRationale(): Result<Boolean> {
+        val result = dataStore.data
+            .catch {
+                // throws an IOException when an error is encountered when reading data
+                if (it is IOException) {
+                    emit(emptyPreferences())
+                } else {
+                    throw it
+                }
+            }
+            .map { preferences ->
+                preferences.showReadExternalStorageRationale
+            }
+            .first()
+        return Result.Success(result)
+    }
 
     // disable read external storage rationale
     override suspend fun disableRES() {

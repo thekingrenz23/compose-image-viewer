@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -12,9 +11,6 @@ import com.fusiontechph.sample.SampleApp
 import com.fusiontechph.sample.ui.home.Home
 import com.fusiontechph.sample.ui.home.HomeViewModel
 import com.fusiontechph.sample.ui.theme.ComposeimageviewerTheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
 
@@ -27,13 +23,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeimageviewerTheme {
-                Log.i("RATIONALE", "before view model dec")
                 val homeViewModel: HomeViewModel = viewModel(
                     factory = HomeViewModel.provideFactory(appContainer.rationaleRepository)
                 )
-
-                Log.i("RATIONALE", "before collect state")
-                val rational by homeViewModel.showReadExternalStorageRationale.collectAsState()
+                val rational by homeViewModel.observeRationale().collectAsState(true)
 
                 Home(
                     showReadExternalStorageRationale = rational,
