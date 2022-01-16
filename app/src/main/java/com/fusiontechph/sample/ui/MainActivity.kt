@@ -27,9 +27,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeimageviewerTheme {
+                Log.i("RATIONALE", "before view model dec")
                 val homeViewModel: HomeViewModel = viewModel(
                     factory = HomeViewModel.provideFactory(appContainer.rationaleRepository)
                 )
+
+                Log.i("RATIONALE", "before collect state")
                 val rational by homeViewModel.showReadExternalStorageRationale.collectAsState()
 
                 Home(

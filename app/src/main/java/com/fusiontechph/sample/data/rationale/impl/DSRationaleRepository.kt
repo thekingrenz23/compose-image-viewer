@@ -1,5 +1,6 @@
 package com.fusiontechph.sample.data.rationale.impl
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -35,6 +36,7 @@ class DSRationaleRepository(val dataStore: DataStore<Preferences>) : RationaleRe
                 }
             }
             .map { preferences ->
+                Log.i("RATIONALE", "map operator executed")
                 preferences.showReadExternalStorageRationale
             }
             .distinctUntilChanged()

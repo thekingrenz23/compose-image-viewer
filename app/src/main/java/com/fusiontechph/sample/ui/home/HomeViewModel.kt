@@ -10,19 +10,17 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    val rationaleRepository: RationaleRepository
+    private val rationaleRepository: RationaleRepository
 ) : ViewModel() {
 
     val showReadExternalStorageRationale = rationaleRepository.showReadExternalStorageRationale.stateIn(
         viewModelScope,
-        SharingStarted.WhileSubscribed(5000),
+        SharingStarted.Eagerly,
         true
     )
 
     init {
-        viewModelScope.launch {
-            showReadExternalStorageRationale.collect {  }
-        }
+
     }
 
     fun disable() {
