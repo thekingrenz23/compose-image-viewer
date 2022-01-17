@@ -12,6 +12,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.fusiontechph.sample.ui.component.ReadStorageDenied
+import com.fusiontechph.sample.ui.component.ReadStorageRationale
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionRequired
 import com.google.accompanist.permissions.rememberPermissionState
@@ -19,7 +21,8 @@ import com.google.accompanist.permissions.rememberPermissionState
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun Home(
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    openSettings: () -> Unit
 ) {
 
     // Track if the user doesn't want to see the rationale any more.
@@ -33,38 +36,22 @@ fun Home(
         permissionState = readStorageState,
         permissionNotGrantedContent = {
             if (!rational) {
-                Text("Feature not available")
+                ReadStorageDenied(
+                    onOpenSettings = openSettings
+                )
             } else {
-                Column {
-                    Text("The camera is important for this app. Please grant the permission.")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row {
-                        Button(onClick = { readStorageState.launchPermissionRequest() }) {
-                            Text("Ok!")
-                        }
-                        Spacer(Modifier.width(8.dp))
-                        Button(
-                            onClick = {
-                                viewModel.disable()
-                            }
-                        ) {
-                            Text("Nope")
-                        }
+                ReadStorageRationale(
+                    onAllow = {
+                        readStorageState.launchPermissionRequest()
                     }
-                }
+                )
             }
         },
         permissionNotAvailableContent = {
-            Column {
-                Text(
-                    "Camera permission denied. See this FAQ with information about why we " +
-                            "need this permission. Please, grant us access on the Settings screen."
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = { }) {
-                    Text("Open Settings")
-                }
-            }
+            viewModel.disable()
+            ReadStorageDenied(
+                onOpenSettings = openSettings
+            )
         }
     ) {
         Text("Camera permission Granted")

@@ -1,6 +1,9 @@
 package com.fusiontechph.sample.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,7 +28,15 @@ class MainActivity : ComponentActivity() {
                 )
 
                 Home(
-                    viewModel = homeViewModel
+                    viewModel = homeViewModel,
+                    openSettings = {
+                        startActivity(
+                            Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", packageName, null)
+                            )
+                        )
+                    }
                 )
             }
         }
