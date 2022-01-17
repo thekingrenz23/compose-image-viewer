@@ -71,6 +71,12 @@ dependencies {
     // life cycle
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
 
+    // image loader
+    implementation 'io.coil-kt:coil-compose:1.4.0'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
+
     // test dependency
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

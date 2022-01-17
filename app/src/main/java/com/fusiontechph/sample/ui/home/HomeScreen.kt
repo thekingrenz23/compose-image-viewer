@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.fusiontechph.renz.imageviewer.FusionImageViewer
 import com.fusiontechph.sample.ui.component.ReadStorageDenied
 import com.fusiontechph.sample.ui.component.ReadStorageRationale
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -54,6 +55,6 @@ fun Home(
             )
         }
     ) {
-        Text("Camera permission Granted")
+        FusionImageViewer()
     }
 }
